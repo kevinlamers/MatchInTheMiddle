@@ -1,39 +1,64 @@
-<!DOCTYPE html>
-<html lang="en-us">
+<!doctype html>
+<html ng-app="myApp">
   <head>
-    <script src="https://cdn.firebase.com/js/client/2.3.0/firebase.js"></script>
-    <meta charset="UTF-8">
-    <title>Matchinthemiddle by rmeertens</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+    <link rel="stylesheet" href="/resources/tutorial/css/example.css"/>
   </head>
-  <script>
-    var firebase = new Firebase('matchinthemiddle.firebaseio.com')
-    target = document.getElementById("main-content")
-	console.log("Hello world")
-    
-	
-  </script>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Matchinthemiddle</h1>
-      <h2 class="project-tagline">Date with two girls at once</h2>
-    </section>
 
-    <section class="main-content">
-      <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-it out.</p>
+  <body ng-controller="MyController">
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/rmeertens/matchinthemiddle">Matchinthemiddle</a> is maintained by <a href="https://github.com/rmeertens">rmeertens</a>.</span>
-      </footer>
+    <!-- CHAT MARKUP -->
+    <div class="example-chat l-demo-container">
+      <header>Our matches</header>
+      <ul id="example-messages" class="example-chat-messages">
+        <li ng-repeat="msg in messages">
+          <strong class="example-chat-username">{{ msg.name }}</strong>
+          {{ msg.age }}
+       <div ng-repeat="value in msg.photos">
+	<img src="{{msg.photos[$index]}}">
 
-    </section>
+	</div>
 
-  
+
+        </li>
+      </ul>
+
+
+    </div>
+
+    <script>
+      var myApp = angular.module("myApp", ["firebase"]);
+
+      myApp.controller("MyController", ["$scope", "$firebaseArray",
+        function($scope, $firebaseArray) {
+          //CREATE A FIREBASE REFERENCE
+          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/matches");
+
+          // GET MESSAGES AS AN ARRAY
+          $scope.messages = $firebaseArray(ref);
+
+          //ADD MESSAGE METHOD
+          $scope.addMessage = function(e) {
+
+            //LISTEN FOR RETURN KEY
+            if (e.keyCode === 13 && $scope.msg) {
+              //ALLOW CUSTOM OR ANONYMOUS USER NAMES
+              var name = $scope.name || "anonymous";
+
+              //ADD TO FIREBASE
+              $scope.messages.$add({
+                from: name,
+                body: $scope.msg
+              });
+
+              //RESET MESSAGE
+              $scope.msg = "";
+            }
+          }
+        }
+      ]);
+    </script>
   </body>
 </html>
