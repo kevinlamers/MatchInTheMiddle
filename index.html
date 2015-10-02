@@ -34,7 +34,7 @@
       myApp.controller("MyController", ["$scope", "$firebaseArray",
         function($scope, $firebaseArray) {
           //CREATE A FIREBASE REFERENCE
-          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/matches");
+          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/peopleonline");
 
           // GET MESSAGES AS AN ARRAY
           $scope.messages = $firebaseArray(ref);
