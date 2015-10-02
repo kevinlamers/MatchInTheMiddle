@@ -11,11 +11,17 @@
 
     <!-- CHAT MARKUP -->
     <div class="example-chat l-demo-container">
-      <header>Our matches</header>
+      <header>Our matches including chat history</header>
       <ul id="example-messages" class="example-chat-messages">
-        <li ng-repeat="msg in messages">
+        <li ng-repeat="msg in matches">
           <strong class="example-chat-username">{{ msg.name }}</strong>
           {{ msg.age }}</br> {{ msg.bio }}</br> {{ msg.birth_date }} </br>{{ msg.ping_time}}</br> {{ msg.common_friends }}</br> {{ msg.common_likes }} 
+<div>Chat history:</div>
+<div ng-repeat="value in msg.messages">
+    <b>{{value["sender"]}}</b>:{{value["body"]}}
+    
+	</div>
+<div>Fotos:</div>
        <div ng-repeat="value in msg.photos">
 	<img src="{{msg.photos[$index]}}" height="200" width="200">
 
@@ -37,7 +43,7 @@
           var ref = new Firebase("https://matchinthemiddle.firebaseio.com/matches");
 
           // GET MESSAGES AS AN ARRAY
-          $scope.messages = $firebaseArray(ref);
+          $scope.matches = $firebaseArray(ref);
 
           //ADD MESSAGE METHOD
           $scope.addMessage = function(e) {
