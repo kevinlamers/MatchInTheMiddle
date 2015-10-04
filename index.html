@@ -5,6 +5,7 @@
     <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
     <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
     <link rel="stylesheet" href="/resources/tutorial/css/example.css"/>
+          <link rel="stylesheet" href="/stylesheets/chat.css"/>
   </head>
 
   <body ng-controller="MyController">
@@ -17,10 +18,31 @@
           <strong class="example-chat-username">{{ msg.name }}</strong>
           {{ msg.age }}</br> {{ msg.bio }}</br> {{ msg.birth_date }} </br>{{ msg.ping_time}}</br> {{ msg.common_friends }}</br> {{ msg.common_likes }} 
 <div>Chat history:</div>
-<div ng-repeat="value in msg.messages">
-    <b>{{value["sender"]}}</b>:{{value["body"]}}
+<section class="module">
+    <header class="top-bar">
+        <h1>Chat history:</h1>
+    </header>
+    <ol class="conversation">
+<li ng-repeat="value in msg.messages">
+    <div class="avatar">
+        <div ng-switch on=value["sender"]>
+            <div ng-switch-when={{msg.name}}>
+                <img src={{msg.photos[0]}}/>
+            </div>
+            <div ng-switch-default>
+                <img src={{matches.$getRecord(msg.matchedTo).photos[0]}} />
+            </div>
+        </div>
+    </div>
+    <div class="message">
+    <p>{{value["body"]}}</p>
+        <time datetime="2009-11-13T20:00">{{value["sender"]}}</time>
+    </div>
+    <!--<b>{{value["sender"]}}</b>:{{value["body"]}}-->
     
-	</div>
+	</li>
+        </ol>
+    </section>
 <div>Fotos:</div>
        <div ng-repeat="value in msg.photos">
 	<img src="{{msg.photos[$index]}}" height="200" width="200">
@@ -40,7 +62,7 @@
       myApp.controller("MyController", ["$scope", "$firebaseArray",
         function($scope, $firebaseArray) {
           //CREATE A FIREBASE REFERENCE
-          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/matches");
+          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/560d4235b3d77d530435a950/matches");
 
           // GET MESSAGES AS AN ARRAY
           $scope.matches = $firebaseArray(ref);
