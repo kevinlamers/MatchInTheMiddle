@@ -27,14 +27,16 @@
     <div class="avatar">
         
         <div ng-show=value["sendername"]==msg.name>
+            {{matches.$getRecord(value["senderid"]).name}}
                 <img src={{matches.$getRecord(value["senderid"]).photos[0]}} />
             </div>
             <div ng-show=value["sendername"]!=msg.name>
+                {{matches.$getRecord(msg.matchedTo).name}}
                 <img src={{matches.$getRecord(msg.matchedTo).photos[0]}} />
             </div>
         </div>
     <div class="message">
-    <p>{{value["body"]}}</p>
+<p>{{value["body"]}}</p>
         <time datetime="2009-11-13T20:00">{{value["sender"]}}</time>
     </div>
     <!--<b>{{value["sender"]}}</b>:{{value["body"]}}-->
@@ -42,7 +44,7 @@
 	</li>
         </ol>
     </section>
-<div>Fotos:</div>
+<div></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>Fotos:</div>
        <div ng-repeat="value in msg.photos">
 	<img src="{{msg.photos[$index]}}" height="200" width="200">
 
