@@ -14,7 +14,7 @@
     <div class="example-chat l-demo-container">
       <header>Our matches including chat history</header>
       <ul id="example-messages" class="example-chat-messages">
-        <li ng-repeat="msg in matches">
+        <li ng-repeat="(name,msg) in matches">
           <strong class="example-chat-username">{{ msg.name }}</strong>
           {{ msg.age }}</br> {{ msg.bio }}</br> {{ msg.birth_date }} </br>{{ msg.ping_time}}</br> {{ msg.common_friends }}</br> {{ msg.common_likes }} 
 <div>Chat history:</div>
@@ -25,15 +25,14 @@
     <ol class="conversation">
 <li ng-repeat="value in msg.messages">
     <div class="avatar">
-        <div ng-switch on=value["sender"]>
-            <div ng-switch-when={{msg.name}}>
-                <img src={{msg.photos[0]}}/>
+        
+        <div ng-show=value["sendername"]==msg.name>
+                <img src={{matches.$getRecord(value["senderid"]).photos[0]}} />
             </div>
-            <div ng-switch-default>
+            <div ng-show=value["sendername"]!=msg.name>
                 <img src={{matches.$getRecord(msg.matchedTo).photos[0]}} />
             </div>
         </div>
-    </div>
     <div class="message">
     <p>{{value["body"]}}</p>
         <time datetime="2009-11-13T20:00">{{value["sender"]}}</time>
