@@ -7,6 +7,17 @@
    
     <link rel="stylesheet" href="/MatchInTheMiddle/stylesheets/chat.css"/>
   </head>
+  <script>
+  	 function foldInOrOut(elementId) {
+	var ele = document.getElementById(elementId);
+	if(ele.style.display == "block") {
+    		ele.style.display = "none";
+  	}
+	else {
+		ele.style.display = "block";
+	}
+	} 
+  </script>
 
   <body ng-controller="MyController">
       Only chat:
@@ -95,9 +106,19 @@
 
 
     </div>
-<div class="example-chat l-demo-container">
+    
+    
+    
+    
+    
+    
+<a id="displayText" href="javascript:foldInOrOut('toggleText2');">show</a> <== click Here
+<div id="toggleText2" style="display: none" href="javascript:toggle();"><h1>Hide!</h1></div>	
+</div>
+
+<div class="generalpeoplediv">
       <header>People found on Tinder:</header>
-      <ul id="example-messages" class="example-chat-messages">
+      <ul id="example-messages" class="peopleontinder">
         <li ng-repeat="(name,msg) in peopleontinder">
           <strong class="example-chat-username">{{ msg.name }}</strong>
           {{ msg.age }}</br> {{ msg.bio }}</br> {{ msg.birth_date }} </br>{{ msg.ping_time}}</br> {{ msg.common_friends }}</br> {{ msg.common_likes }} 
@@ -120,6 +141,8 @@
     </div>
 
     <script>
+    
+    
       var myApp = angular.module("myApp", ["firebase"]);
 
       myApp.controller("MyController", ["$scope", "$firebaseArray",
@@ -151,6 +174,8 @@
           }
         }
       ]);
+      
+     
     </script>
   </body>
 </html>
