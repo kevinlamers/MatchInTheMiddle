@@ -146,8 +146,8 @@
       myApp.controller("MyController", ["$scope", "$firebaseArray",
         function($scope, $firebaseArray) {
           //CREATE A FIREBASE REFERENCE
-          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/5612a05e18f565f53f3b4cbd/matches");
-           var peopleOnTinderRef = new Firebase("https://matchinthemiddle.firebaseio.com/5612a05e18f565f53f3b4cbd/peopleonline");
+          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/5616366f3f99038249723fc4/matches");
+           var peopleOnTinderRef = new Firebase("https://matchinthemiddle.firebaseio.com/5616366f3f99038249723fc4/peopleonline");
 
           // GET MESSAGES AS AN ARRAY
           $scope.matches = $firebaseArray(ref);
