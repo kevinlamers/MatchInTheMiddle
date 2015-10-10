@@ -6,7 +6,7 @@
         
         
   <div ng-show="authData">
-    <p>Hello, {{ authData.facebook.displayName }}</p>
+    <p>Hello, {{ authData.uid}} - {{authData.github.id}}</p>
     <button ng-click="auth.$unauth()">Logout</button>
   </div>
   <div ng-hide="authData">
