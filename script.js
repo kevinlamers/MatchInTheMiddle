@@ -3,6 +3,14 @@
         // also include ngRoute for all our routing needs
     var scotchApp = angular.module('scotchApp', ['ngRoute','firebase']);
 
+
+    scotchApp.factory("Auth", ["$firebaseAuth",
+      function($firebaseAuth) {
+        var ref = new Firebase("https://matchinthemiddle.firebaseio.com");
+        return $firebaseAuth(ref);
+      }
+    ]);
+
     // configure our routes
     scotchApp.config(function($routeProvider) {
         $routeProvider
@@ -25,16 +33,11 @@
                 controller  : 'contactController'
             });
     });
-
-
-
- 
-            
-            
-            
-            
+    
     // create the controller and inject Angular's $scope
-    scotchApp.controller('mainController', ["$scope","$firebaseArray","$firebaseAuth",function($scope,$firebaseArray,$firebaseAuth) {
+    scotchApp.controller('mainController', ["$scope","$firebaseArray","Auth",function($scope,$firebaseArray,Auth) {
+           $scope.auth = Auth;
+
         // create a message to display in our view
         $scope.message = 'Everyone come and see how good I look!';
                  //CREATE A FIREBASE REFERENCE
@@ -42,15 +45,11 @@
         var ref = new Firebase("https://matchinthemiddle.firebaseio.com/5616366f3f99038249723fc4/matches");
         // GET MESSAGES AS AN ARRAY
         $scope.matches = $firebaseArray(ref);
-        
-        
-             ref.authWithOAuthPopup("github", function(error, authData) {
-  if (error) {
-    console.log("Login Failed!", error);
-  } else {
-    console.log("Authenticated successfully with payload:", authData);
-  }
-});
+        // any time auth status updates, add the user data to scope
+        $scope.auth.$onAuth(function(authData) {
+          $scope.authData = authData;
+        });
+
     }]);
 
     scotchApp.controller('aboutController', function($scope) {
@@ -60,3 +59,13 @@
     scotchApp.controller('contactController', function($scope) {
         $scope.message = 'Contact us! JK. This is just a demo.';
     });
+
+
+
+
+
+
+
+
+
+
