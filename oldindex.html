@@ -1,0 +1,179 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+   
+    <link rel="stylesheet" href="/MatchInTheMiddle/stylesheets/chat.css"/>
+  </head>
+  <script>
+  	 function foldInOrOut(elementId) {
+	var ele = document.getElementById(elementId);
+	if(ele.style.display == "block") {
+    		ele.style.display = "none";
+  	}
+	else {
+		ele.style.display = "block";
+	}
+	} 
+  </script>
+
+  <body ng-controller="MyController">
+      Only chat:
+        <!-- CHAT MARKUP -->
+    <div class="example-chat l-demo-container">
+      <header>Our matches including chat history</header>
+      <ul id="example-messages" class="example-chat-messages">
+        <li ng-repeat="(name,msg) in matches">
+<section class="module">
+    <header class="top-bar">
+        <h3>Chat history: {{matches.$getRecord(value["senderid"]).name}} - {{matches.$getRecord(msg.matchedTo).name}}</h3>
+    </header>
+    <ol class="conversation">
+        <li ng-repeat="value in msg.messages">
+    <div class="avatar">
+        <div ng-show=value["sendername"]==msg.name>
+            {{matches.$getRecord(value["senderid"]).name}}
+                <img src={{matches.$getRecord(value["senderid"]).photos[0]}} />
+            </div>
+            <div ng-show=value["sendername"]!=msg.name>
+                {{matches.$getRecord(msg.matchedTo).name}}
+                <img src={{matches.$getRecord(msg.matchedTo).photos[0]}} />
+            </div>
+    </div>
+    <div class="message">
+        <p>{{value["body"]}}</p>
+        <time datetime="2009-11-13T20:00">{{value["sender"]}}</time>
+    </div>
+    
+	</li>
+        </ol>
+    </section>
+
+
+        </li>
+      </ul>
+
+
+    </div>
+
+
+<!-- end of only chat-->
+    <!-- CHAT MARKUP -->
+    <div class="example-chat l-demo-container">
+      <header>Our matches including chat history</header>
+      <ul id="example-messages" class="example-chat-messages">
+        <li ng-repeat="(name,msg) in matches">
+          <strong class="example-chat-username">{{ msg.name }}</strong>
+          {{ msg.age }}</br> {{ msg.bio }}</br> {{ msg.birth_date }} </br>{{ msg.ping_time}}</br> {{ msg.common_friends }}</br> {{ msg.common_likes }} 
+<div>Chat history:</div>
+<section class="module">
+    <header class="top-bar">
+        <h1>Chat history:</h1>
+    </header>
+    <ol class="conversation">
+<li ng-repeat="value in msg.messages">
+    <div class="avatar">
+        
+        <div ng-show=value["sendername"]==msg.name>
+            {{matches.$getRecord(value["senderid"]).name}}
+                <img src={{matches.$getRecord(value["senderid"]).photos[0]}} />
+            </div>
+            <div ng-show=value["sendername"]!=msg.name>
+                {{matches.$getRecord(msg.matchedTo).name}}
+                <img src={{matches.$getRecord(msg.matchedTo).photos[0]}} />
+            </div>
+        </div>
+    <div class="message">
+<p>{{value["body"]}}</p>
+        <time datetime="2009-11-13T20:00">{{value["sender"]}}</time>
+    </div>
+    <!--<b>{{value["sender"]}}</b>:{{value["body"]}}-->
+    
+	</li>
+        </ol>
+    </section>
+<div></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>Fotos:</div>
+       <div ng-repeat="value in msg.photos">
+	<img src="{{msg.photos[$index]}}" height="200" width="200">
+
+	</div>
+
+
+        </li>
+      </ul>
+
+
+    </div>
+    
+    
+    
+    
+    
+    
+<a id="displayText" href="javascript:foldInOrOut('generalpeoplediv');">show people encountered</a>
+
+<div id="generalpeoplediv" style="display: none" >
+      <header>People found on Tinder:</header>
+      <ul id="example-messages" class="peopleontinder">
+        <li ng-repeat="(name,msg) in peopleontinder">
+          <strong class="example-chat-username">{{ msg.name }}</strong>
+          {{ msg.age }}</br> {{ msg.bio }}</br> {{ msg.birth_date }} </br>{{ msg.ping_time}}</br> {{ msg.common_friends }}</br> {{ msg.common_likes }} 
+<div>Chat history:</div>
+<section class="module">
+    
+    
+    </section>
+
+       <div ng-repeat="value in msg.photos">
+	<img src="{{msg.photos[$index]}}" height="200" width="200">
+
+	</div>
+
+
+        </li>
+      </ul>
+
+
+    </div>
+
+    <script>
+    
+    
+      var myApp = angular.module("myApp", ["firebase"]);
+
+      myApp.controller("MyController", ["$scope", "$firebaseArray",
+        function($scope, $firebaseArray) {
+          //CREATE A FIREBASE REFERENCE
+          var ref = new Firebase("https://matchinthemiddle.firebaseio.com/5616366f3f99038249723fc4/matches");
+           var peopleOnTinderRef = new Firebase("https://matchinthemiddle.firebaseio.com/5616366f3f99038249723fc4/peopleonline");
+
+          // GET MESSAGES AS AN ARRAY
+          $scope.matches = $firebaseArray(ref);
+            $scope.peopleontinder = $firebaseArray(peopleOnTinderRef)
+          //ADD MESSAGE METHOD
+          $scope.addMessage = function(e) {
+
+            //LISTEN FOR RETURN KEY
+            if (e.keyCode === 13 && $scope.msg) {
+              //ALLOW CUSTOM OR ANONYMOUS USER NAMES
+              var name = $scope.name || "anonymous";
+
+              //ADD TO FIREBASE
+              $scope.messages.$add({
+                from: name,
+                body: $scope.msg
+              });
+
+              //RESET MESSAGE
+              $scope.msg = "";
+            }
+          }
+        }
+      ]);
+      
+     
+    </script>
+  </body>
+</html>
