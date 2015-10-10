@@ -51,6 +51,7 @@
     console.log("Authenticated successfully with payload:", authData);
   }
 });
+    }]);
 
     scotchApp.controller('aboutController', function($scope) {
         $scope.message = 'Look! I am an about page.';
