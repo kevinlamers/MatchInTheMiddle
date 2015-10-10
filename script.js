@@ -44,13 +44,13 @@
         $scope.matches = $firebaseArray(ref);
         
         
-          // login with Facebook
-          var auth = $firebaseAuth(ref); auth.$authWithOAuthPopup("facebook").then(function(authData) {
-            console.log("Logged in as:", authData.uid);
-          }).catch(function(error) {
-            console.log("Authentication failed:", error);
-          });
-    }]);
+             ref.authWithOAuthPopup("github", function(error, authData) {
+  if (error) {
+    console.log("Login Failed!", error);
+  } else {
+    console.log("Authenticated successfully with payload:", authData);
+  }
+});
 
     scotchApp.controller('aboutController', function($scope) {
         $scope.message = 'Look! I am an about page.';
