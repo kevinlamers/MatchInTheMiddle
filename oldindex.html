@@ -117,7 +117,7 @@
 <div id="generalpeoplediv" style="display: none" >
       <header>People found on Tinder:</header>
       <ul id="example-messages" class="peopleontinder">
-        <li ng-repeat="(name,msg) in peopleontinder | filter:beaty ">
+        <li ng-repeat="(name,msg) in peopleontinder " ng-if="msg.beaty">
           <strong class="example-chat-username">{{ msg.name }}</strong>
           {{ msg.age }}</br> 
           Beaty: {{ msg.beaty }}</br>
